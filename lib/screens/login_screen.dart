@@ -216,11 +216,11 @@ class LoginButton extends StatelessWidget {
           }
         },
         child: const Padding(
-          padding: EdgeInsets.all(16.0),
+          padding: EdgeInsets.symmetric(vertical: 16.0),
           child: Text(
             "Login",
             style: TextStyle(
-              fontSize: 20,
+              fontSize: 24,
               color: Color(0xffdee3e6),
               fontWeight: FontWeight.w500,
             ),
