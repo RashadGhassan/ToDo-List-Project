@@ -7,6 +7,7 @@ class WelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xffdee3e6),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16),
         child: Column(
@@ -57,8 +58,7 @@ class WelcomePage extends StatelessWidget {
                     ),
                     onPressed: () {},
                     child: Container(
-                      width: 150,
-                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      padding: const EdgeInsets.symmetric(vertical: 16),
                       child: Text(
                         "Login",
                         style: myStyle,
@@ -75,8 +75,7 @@ class WelcomePage extends StatelessWidget {
                     ),
                     onPressed: () {},
                     child: Container(
-                      width: 150,
-                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      padding: const EdgeInsets.symmetric(vertical: 16),
                       child: Text(
                         "Register",
                         style: myStyle,
@@ -95,5 +94,5 @@ class WelcomePage extends StatelessWidget {
 }
 
 TextStyle myStyle = TextStyle(
-  fontSize: 32,
+  fontSize: 24,
 );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:to_do_list/screens/login_screen.dart';
 import 'package:to_do_list/screens/welcome_screen.dart';
 
 void main() {
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
             ),
       ),
       title: "To Do List Application",
-      home: WelcomePage(),
+      home: LoginPage(),
     );
   }
 }
