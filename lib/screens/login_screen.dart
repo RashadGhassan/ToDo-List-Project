@@ -34,7 +34,7 @@ class _LoginFormState extends State<LoginForm> {
       child: ListView(
         children: [
           const SizedBox(
-            height: 20,
+            height: 12,
           ),
           //svg illus
           Container(
@@ -42,7 +42,7 @@ class _LoginFormState extends State<LoginForm> {
             height: 180,
           ),
           const SizedBox(
-            height: 40,
+            height: 32,
           ),
           //main login heading
           const Padding(
@@ -56,11 +56,11 @@ class _LoginFormState extends State<LoginForm> {
             ),
           ),
           const SizedBox(
-            height: 32,
+            height: 16,
           ),
           FormLayout(),
           const SizedBox(
-            height: 40,
+            height: 16,
           ),
           LoginButton(),
         ],
