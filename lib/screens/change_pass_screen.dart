@@ -10,8 +10,9 @@ class ChangePass extends StatefulWidget {
 class _ChangePassState extends State<ChangePass> {
   var _formKey = GlobalKey<FormState>();
   bool _passwordVisible = false;
-  dynamic confirmPass;
- 
+  String confirmPass = "";
+  String currentPass = "";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,17 +42,12 @@ class _ChangePassState extends State<ChangePass> {
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: TextFormField(
                     validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Required Field';
+                      currentPass = value!;
+                      if (value.isEmpty) {
+                        return "Field Required!";
                       }
-                      if (value.length < 8) {
-                  return "Password must be 8 Characters Long";
-                }
-                RegExp regex = RegExp(r'^(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
-                if (!regex.hasMatch(value)) {
-                  return "Password must contain at least one special character, and atleast one number";
-                }
                     },
+                    obscureText: true,
                     decoration: InputDecoration(
                       label: Text("Current Password"),
                       border: OutlineInputBorder(
@@ -65,9 +61,20 @@ class _ChangePassState extends State<ChangePass> {
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: TextFormField(
                     validator: (value) {
-                      confirmPass=value;
-                      if (value!.isEmpty) {
-                        return 'Required Field';
+                      confirmPass = value!;
+                      if (value.isEmpty) {
+                        return "Field Required!";
+                      }
+                      if (value.length < 8) {
+                        return "Password must be 8 Characters Long";
+                      }
+                      RegExp regex =
+                          RegExp(r'^(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
+                      if (!regex.hasMatch(value)) {
+                        return "Password must contain at least one special character, and at least one number";
+                      }
+                      if (value == currentPass) {
+                        return "Password must be different from the current one";
                       }
                     },
                     keyboardType: TextInputType.visiblePassword,
@@ -101,12 +108,12 @@ class _ChangePassState extends State<ChangePass> {
                       if (value!.isEmpty) {
                         return 'Required Feild';
                       }
-                      if(value!=confirmPass){
+                      if (value != confirmPass) {
                         return "Password not Matched";
                       }
                     },
                     keyboardType: TextInputType.visiblePassword,
-                    obscureText: !_passwordVisible,
+                    obscureText: true,
                     decoration: InputDecoration(
                       errorMaxLines: 4,
                       label: Text("Confirm New Password"),
@@ -130,7 +137,7 @@ class _ChangePassState extends State<ChangePass> {
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     var sb = const SnackBar(
-                      content: Text("Email Changed Successfully"),
+                      content: Text("Password Changed Successfully"),
                       backgroundColor: Colors.green,
                       duration: Duration(seconds: 2),
                       padding:
@@ -158,6 +165,3 @@ class _ChangePassState extends State<ChangePass> {
     );
   }
 }
-
-
-      
