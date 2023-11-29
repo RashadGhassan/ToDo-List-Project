@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});
@@ -43,7 +42,7 @@ class WelcomePage extends StatelessWidget {
                   height: 40,
                 ),
                 Container(
-                  child: SvgPicture.asset("assets/images/welcome.svg"),
+                  child: Image.asset("assets/images/welcome.png"),
                   height: 150,
                 ),
               ],

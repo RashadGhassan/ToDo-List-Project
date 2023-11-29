@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -47,7 +46,7 @@ class _LoginFormState extends State<LoginForm> {
           ),
           //svg illus
           Container(
-            child: SvgPicture.asset("assets/images/login.svg"),
+            child: Image.asset("assets/images/login.png"),
             height: 180,
           ),
           const SizedBox(
