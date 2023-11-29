@@ -22,6 +22,12 @@ class _ChangeEmailState extends State<ChangeEmail> {
             fontSize: 24,
           ),
         ),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
       body: Form(
         key: _formKey,

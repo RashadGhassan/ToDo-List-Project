@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class RegistrationPage extends StatelessWidget {
   const RegistrationPage({super.key});
@@ -68,7 +67,7 @@ class _RegistrationState extends State<Registration> {
             height: 10,
           ),
           Container(
-            child: SvgPicture.asset("assets/images/register.svg"),
+            child: Image.asset("assets/images/register.png"),
             height: 150,
           ),
           SizedBox(
