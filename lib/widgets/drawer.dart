@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class DrawerWidget extends StatefulWidget {
   const DrawerWidget({super.key});
 
@@ -15,54 +14,64 @@ class _DrawerWidgetState extends State<DrawerWidget> {
       child: ListView(
         children: [
           DrawerHeader(
-              child: Center(
-                child: ListTile(
-                  leading: CircleAvatar(
-                    child: Container(
-                    padding:
-                        EdgeInsets.all(12),
+            child: Center(
+              child: ListTile(
+                leading: CircleAvatar(
+                  child: Container(
+                    padding: EdgeInsets.all(12),
                     child: Text(
                       "M",
                       style: TextStyle(
                         color: Colors.black,
                       ),
                     ),
-                                  ),
                   ),
-                  title: Text("Maamoun Hajtaher",style: TextStyle(fontSize: 20),),
-                  subtitle: Text("maamoun.ameenex@gmail.com",style: TextStyle(fontSize: 12),),
+                ),
+                title: Text(
+                  "Maamoun Hajtaher",
+                  style: TextStyle(fontSize: 20),
+                ),
+                subtitle: Text(
+                  "maamoun.ameenex@gmail.com",
+                  style: TextStyle(fontSize: 12),
                 ),
               ),
-              ),
+            ),
+          ),
           ListTile(
             leading: Icon(Icons.home),
             trailing: Icon(Icons.arrow_forward_ios, size: 16),
             title: Text("Home"),
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, "/homePage");
+            },
           ),
           ListTile(
-            leading: Icon(Icons.person),
+            leading: Icon(Icons.settings),
             trailing: Icon(Icons.arrow_forward_ios, size: 16),
-            title: Text("Profile"),
+            title: Text("Settings"),
             onTap: () {
+              Navigator.pushNamed(context, "/settingsPage");
             },
           ),
           ListTile(
             leading: Icon(Icons.info),
             trailing: Icon(Icons.arrow_forward_ios, size: 16),
             title: Text("About"),
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, "/aboutPage");
+            },
           ),
           ListTile(
             leading: Icon(Icons.logout),
             trailing: Icon(Icons.arrow_forward_ios, size: 16),
             title: Text("Logout"),
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, "/welcomePage");
+            },
           ),
         ],
       ),
     );
   }
 }
-
-  
