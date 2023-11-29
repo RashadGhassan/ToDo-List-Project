@@ -163,8 +163,8 @@ class _RegistrationFormState extends State<RegistrationForm> {
             ),
             TextFormField(
               validator: (value) {
-                pass = value;
-                if (value!.isEmpty) {
+                pass = value!;
+                if (value.isEmpty) {
                   return "Field Required!";
                 }
                 if (value.length < 8) {
