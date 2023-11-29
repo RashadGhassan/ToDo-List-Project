@@ -24,7 +24,12 @@ class MyApp extends StatelessWidget {
             ),
       ),
       title: "To Do List Application",
-      home: RegistrationPage(),
+      initialRoute: "/welcomePage",
+      routes: {
+        "/welcomePage": (context) => WelcomePage(),
+        "/loginPage": (context) => LoginPage(),
+        "/registrationPage": (context) => RegistrationPage(),
+      },
     );
   }
 }

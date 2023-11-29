@@ -31,8 +31,11 @@ class WelcomePage extends StatelessWidget {
                     ),
                     Text(
                       "Sync",
-                      style:
-                          TextStyle(fontSize: 56, fontWeight: FontWeight.w300),
+                      style: TextStyle(
+                        fontSize: 56,
+                        fontWeight: FontWeight.w300,
+                        color: Color(0xff0b2e35),
+                      ),
                     ),
                   ],
                 ),
@@ -56,7 +59,9 @@ class WelcomePage extends StatelessWidget {
                         borderRadius: BorderRadius.circular(50),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, "/loginPage");
+                    },
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       child: Text(
@@ -73,7 +78,9 @@ class WelcomePage extends StatelessWidget {
                         borderRadius: BorderRadius.circular(50),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, "/registrationPage");
+                    },
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       child: Text(

@@ -7,9 +7,19 @@ class RegistrationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xffdee3e6),
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
+        iconTheme: IconThemeData(
+          color: Color(0xff0b2e35),
+        ),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(Icons.arrow_back_ios),
+        ),
       ),
       body: Registration(),
     );
@@ -161,7 +171,6 @@ class _RegistrationFormState extends State<RegistrationForm> {
                   return "Password must be 8 Characters Long";
                 }
                 RegExp regex = RegExp(r'^(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
-                bool flag = true;
                 if (!regex.hasMatch(value)) {
                   return "Password must contain at least one special character, and atleast one number";
                 }
