@@ -150,11 +150,6 @@ class _FormLayoutState extends State<FormLayout> {
                   if (value!.isEmpty) {
                     return "Field Required!";
                   }
-                  RegExp regex = RegExp(
-                      r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
-                  if (!regex.hasMatch(value)) {
-                    return "Invalid Password!";
-                  }
                 },
                 keyboardType: TextInputType.visiblePassword,
                 obscureText: !_passwordVisible,
@@ -216,7 +211,7 @@ class LoginButton extends StatelessWidget {
         onPressed: () {
           if (_formKey.currentState!.validate()) {
             var sb = const SnackBar(
-              content: Text("Logged In"),
+              content: Text("Login Successful!"),
               backgroundColor: Colors.green,
               duration: Duration(seconds: 2),
               padding: EdgeInsets.symmetric(vertical: 4, horizontal: 16),

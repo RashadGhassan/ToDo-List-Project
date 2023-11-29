@@ -252,12 +252,7 @@ class RegistrationButton extends StatelessWidget {
       ),
       onPressed: () {
         if (_formKey.currentState!.validate()) {
-          var sb = SnackBar(
-            content: Text("Logged In"),
-            backgroundColor: Colors.green,
-            duration: Duration(seconds: 2),
-          );
-          ScaffoldMessenger.of(context).showSnackBar(sb);
+          Navigator.pushNamed(context, "/infoRegistrationPage");
         }
       },
       child: Padding(
@@ -265,7 +260,7 @@ class RegistrationButton extends StatelessWidget {
         child: Text(
           "Register",
           style: TextStyle(
-            fontSize: 20,
+            fontSize: 24,
             fontWeight: FontWeight.w500,
           ),
         ),

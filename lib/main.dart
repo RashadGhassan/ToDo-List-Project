@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:to_do_list/screens/login_screen.dart';
+import 'package:to_do_list/screens/register_info_screen.dart';
 import 'package:to_do_list/screens/register_screen.dart';
 import 'package:to_do_list/screens/welcome_screen.dart';
 
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
         "/welcomePage": (context) => WelcomePage(),
         "/loginPage": (context) => LoginPage(),
         "/registrationPage": (context) => RegistrationPage(),
+        "/infoRegistrationPage": (context) => InfoRegistrationPage(),
       },
     );
   }
