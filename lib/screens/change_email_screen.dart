@@ -77,7 +77,7 @@ class _ChangeEmailState extends State<ChangeEmail> {
                   child: TextFormField(
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return 'Required Feild';
+                        return 'Required Field';
                       }
                     },
                     keyboardType: TextInputType.visiblePassword,
