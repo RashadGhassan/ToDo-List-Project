@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:to_do_list/screens/about_screen.dart';
+import 'package:to_do_list/screens/account_info_screen.dart';
 import 'package:to_do_list/screens/login_screen.dart';
 import 'package:to_do_list/screens/register_info_screen.dart';
 import 'package:to_do_list/screens/register_screen.dart';
 import 'package:to_do_list/screens/welcome_screen.dart';
+import 'package:to_do_list/screens/settings_screen.dart';
+import 'package:to_do_list/screens/home_screen.dart';
+import 'package:to_do_list/screens/change_email_screen.dart';
+import 'package:to_do_list/screens/change_pass_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -25,12 +30,18 @@ class MyApp extends StatelessWidget {
             ),
       ),
       title: "To Do List Application",
-      initialRoute: "/welcomePage",
+      initialRoute: "/homePage",
       routes: {
         "/welcomePage": (context) => WelcomePage(),
         "/loginPage": (context) => LoginPage(),
         "/registrationPage": (context) => RegistrationPage(),
         "/infoRegistrationPage": (context) => InfoRegistrationPage(),
+        "/settingsPage": (context) => SettingsPage(),
+        "/homePage": (context) => Test(),
+        "/changeEmailPage": (context) => ChangeEmail(),
+        "/changePassPage": (context) => ChangePass(),
+        "/accountInfoPage": (context) => AccountInfo(),
+        "/aboutPage": (context) => AboutPage(),
       },
     );
   }
