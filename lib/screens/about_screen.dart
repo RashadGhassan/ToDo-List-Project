@@ -10,6 +10,9 @@ class AboutPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           "About TodoSync...",
+          style: TextStyle(
+            fontSize: 24,
+          ),
         ),
       ),
       drawer: DrawerWidget(),

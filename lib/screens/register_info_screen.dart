@@ -43,7 +43,6 @@ class InfoRegistration extends StatefulWidget {
 
 class _InfoRegistrationState extends State<InfoRegistration> {
   var _formKey = GlobalKey<FormState>();
-  bool check = true;
   //changed dateTime variable
   dynamic _dayTime = "1/1/2005";
 
@@ -163,7 +162,8 @@ class _InfoRegistrationState extends State<InfoRegistration> {
                       },
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
-                        hintText: "07950111223",
+                        prefixText: "+962",
+                        hintText: "7950111223",
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(50)),
                         ),
