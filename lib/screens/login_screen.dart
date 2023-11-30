@@ -6,7 +6,7 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffdee3e6),
+      backgroundColor: Color(0xFFD2D6D8),
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
@@ -216,6 +216,7 @@ class LoginButton extends StatelessWidget {
               padding: EdgeInsets.symmetric(vertical: 4, horizontal: 16),
             );
             ScaffoldMessenger.of(context).showSnackBar(sb);
+            Navigator.pushNamed(context, "/homePage");
           }
         },
         child: const Padding(
@@ -224,7 +225,7 @@ class LoginButton extends StatelessWidget {
             "Login",
             style: TextStyle(
               fontSize: 24,
-              color: Color(0xffdee3e6),
+              color: Colors.white,
               fontWeight: FontWeight.w500,
             ),
           ),

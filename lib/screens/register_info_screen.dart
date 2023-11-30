@@ -15,7 +15,7 @@ class InfoRegistrationPage extends StatelessWidget {
           child: ElevatedButton(
             child: Icon(
               Icons.arrow_back_ios,
-              color: Color(0xffdee3e6),
+              color: Color(0xFFD2D6D8),
               grade: 20,
             ),
             onPressed: () {
@@ -248,6 +248,7 @@ class _InfoRegistrationState extends State<InfoRegistration> {
                     duration: Duration(seconds: 2),
                   );
                   ScaffoldMessenger.of(context).showSnackBar(sb);
+                  Navigator.pushNamed(context, "/homePage");
                 }
               },
               child: Padding(
@@ -256,7 +257,7 @@ class _InfoRegistrationState extends State<InfoRegistration> {
                   "Submit",
                   style: TextStyle(
                     fontSize: 24,
-                    color: Color(0xffdee3e6),
+                    color: Colors.white,
                     fontWeight: FontWeight.w500,
                   ),
                 ),

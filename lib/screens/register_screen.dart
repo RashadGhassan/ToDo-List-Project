@@ -6,7 +6,7 @@ class RegistrationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffdee3e6),
+      backgroundColor: Color(0xFFD2D6D8),
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
