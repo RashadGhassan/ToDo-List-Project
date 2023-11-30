@@ -154,8 +154,8 @@ class _InfoRegistrationState extends State<InfoRegistration> {
                         if (value!.isEmpty) {
                           return "Field Required!";
                         }
-                        RegExp regex = RegExp(r'^(?=.*?[0-9])$');
-                        if (!regex.hasMatch(value) || value.length != 10) {
+                        RegExp regex = RegExp(r'^(?:[+0]9)?[0-9]{9}$');
+                        if (!regex.hasMatch(value) || value.length != 9) {
                           return 'Invalid Phone Number';
                         }
                       },
@@ -186,11 +186,6 @@ class _InfoRegistrationState extends State<InfoRegistration> {
                       ),
                     ),
                     TextFormField(
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return "Field Required!";
-                        }
-                      },
                       readOnly: true,
                       decoration: InputDecoration(
                         suffixIcon: MaterialButton(
