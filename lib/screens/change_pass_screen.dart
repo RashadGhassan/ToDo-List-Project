@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:to_do_list/data/data.dart';
 
 class ChangePass extends StatefulWidget {
   const ChangePass({super.key});
@@ -47,6 +48,9 @@ class _ChangePassState extends State<ChangePass> {
                       if (value.isEmpty) {
                         return "Field Required!";
                       }
+                      if (registeredUsers[loggedInUserIndex].pass != value) {
+                        return "Incorrect Password!";
+                      }
                     },
                     obscureText: true,
                     decoration: InputDecoration(
@@ -75,7 +79,7 @@ class _ChangePassState extends State<ChangePass> {
                         return "Password must contain at least one special character, and at least one number";
                       }
                       if (value == currentPass) {
-                        return "Password must be different from the current one";
+                        return "New Password must be different from the current one";
                       }
                     },
                     keyboardType: TextInputType.visiblePassword,
@@ -145,6 +149,7 @@ class _ChangePassState extends State<ChangePass> {
                           EdgeInsets.symmetric(vertical: 16, horizontal: 16),
                     );
                     ScaffoldMessenger.of(context).showSnackBar(sb);
+                    registeredUsers[loggedInUserIndex].pass = confirmPass;
                     Navigator.pushNamed(context, "/homePage");
                   }
                 },

@@ -36,27 +36,10 @@ var _formKey = GlobalKey<FormState>();
 bool _passwordVisible = false;
 dynamic pass = "";
 
+String newUserEmail = "";
+String newUserPass = "";
+
 class _RegistrationState extends State<Registration> {
-  //changed dateTime variable
-  dynamic _dayTime = "Date Of Birth";
-
-  //changed dateTime function
-  void _showDatePicker() {
-    print("hello");
-    showDatePicker(
-      context: context,
-      initialDate: DateTime(2005),
-      firstDate: DateTime(1923),
-      lastDate: DateTime.utc(2005, 12, 31),
-      errorInvalidText: "Invalid Date",
-    ).then((value) {
-      setState(() {
-        _dayTime =
-            "${value!.day.toString()}/${value.month.toString()}/${value.year.toString()}";
-      });
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -125,7 +108,8 @@ class _RegistrationFormState extends State<RegistrationForm> {
             ),
             TextFormField(
               validator: (value) {
-                if (value!.isEmpty) {
+                newUserEmail = value!;
+                if (value.isEmpty) {
                   return "Field Required!";
                 }
                 if (!(value.contains('@') && value.contains(".com"))) {
@@ -163,6 +147,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
             TextFormField(
               validator: (value) {
                 pass = value!;
+                newUserPass = pass;
                 if (value.isEmpty) {
                   return "Field Required!";
                 }

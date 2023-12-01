@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:to_do_list/data/data.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -77,6 +78,8 @@ class _LoginFormState extends State<LoginForm> {
   }
 }
 
+int index = -1;
+
 class FormLayout extends StatefulWidget {
   const FormLayout({super.key});
 
@@ -84,9 +87,13 @@ class FormLayout extends StatefulWidget {
   State<FormLayout> createState() => _FormLayoutState();
 }
 
-class _FormLayoutState extends State<FormLayout> {
-  bool _passwordVisible = false;
+final List<TextEditingController> _todoController = [
+  TextEditingController(),
+  TextEditingController(),
+];
+bool _passwordVisible = false;
 
+class _FormLayoutState extends State<FormLayout> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -108,12 +115,26 @@ class _FormLayoutState extends State<FormLayout> {
                 ),
               ),
               TextFormField(
+                controller: _todoController[0],
                 validator: (value) {
                   if (value!.isEmpty) {
                     return "Field Required!";
                   }
                   if (!(value.contains('@') && value.contains(".com"))) {
                     return "Invalid Email!";
+                  }
+                  bool flag = true;
+                  for (int i = 0; i < registeredUsers.length; i++) {
+                    if (value != registeredUsers[i].email) {
+                      flag = true;
+                    } else {
+                      flag = false;
+                      index = i;
+                      break;
+                    }
+                  }
+                  if (flag) {
+                    return "User not registered!";
                   }
                 },
                 decoration: const InputDecoration(
@@ -145,9 +166,13 @@ class _FormLayoutState extends State<FormLayout> {
                 ),
               ),
               TextFormField(
+                controller: _todoController[1],
                 validator: (value) {
                   if (value!.isEmpty) {
                     return "Field Required!";
+                  }
+                  if (value != registeredUsers[index].pass) {
+                    return "Incorrrect Password!";
                   }
                 },
                 keyboardType: TextInputType.visiblePassword,
@@ -213,9 +238,13 @@ class LoginButton extends StatelessWidget {
               content: Text("Login Successful!"),
               backgroundColor: Colors.green,
               duration: Duration(seconds: 2),
-              padding: EdgeInsets.symmetric(vertical: 4, horizontal: 16),
+              padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
             );
             ScaffoldMessenger.of(context).showSnackBar(sb);
+            loggedInUserIndex = index;
+            _todoController[0].clear();
+            _todoController[1].clear();
+            _passwordVisible = false;
             Navigator.pushNamed(context, "/homePage");
           }
         },

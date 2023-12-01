@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:to_do_list/data/data.dart';
+import 'package:to_do_list/models/user.dart';
+import 'package:to_do_list/screens/register_screen.dart';
+import 'package:to_do_list/main.dart';
 
 class InfoRegistrationPage extends StatelessWidget {
   const InfoRegistrationPage({super.key});
@@ -61,6 +65,21 @@ class _InfoRegistrationState extends State<InfoRegistration> {
     });
   }
 
+  void _addNewUser(user) {
+    registeredUsers.add(user);
+    loggedInUserIndex = registeredUsers.length - 1;
+  }
+
+  User newUser = User(
+      id: registeredUsers.length + 1,
+      firstName: "",
+      lastName: "",
+      email: newUserEmail,
+      pass: newUserPass,
+      dateOfBirth: "",
+      phone: "",
+      gender: grpValue);
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -90,6 +109,7 @@ class _InfoRegistrationState extends State<InfoRegistration> {
                         if (value!.isEmpty) {
                           return "Field Required!";
                         }
+                        newUser.firstName = value;
                       },
                       decoration: InputDecoration(
                         //hintText: "Enter your name", // this goes away when writing
@@ -124,6 +144,7 @@ class _InfoRegistrationState extends State<InfoRegistration> {
                         if (value!.isEmpty) {
                           return "Field Required!";
                         }
+                        newUser.lastName = value;
                       },
                       decoration: InputDecoration(
                         hintText: "Hajtaher",
@@ -158,6 +179,7 @@ class _InfoRegistrationState extends State<InfoRegistration> {
                         if (!regex.hasMatch(value) || value.length != 9) {
                           return 'Invalid Phone Number';
                         }
+                        newUser.phone = value;
                       },
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
@@ -186,6 +208,9 @@ class _InfoRegistrationState extends State<InfoRegistration> {
                       ),
                     ),
                     TextFormField(
+                      validator: (value) {
+                        newUser.dateOfBirth = value!;
+                      },
                       readOnly: true,
                       decoration: InputDecoration(
                         suffixIcon: MaterialButton(
@@ -243,6 +268,7 @@ class _InfoRegistrationState extends State<InfoRegistration> {
                     duration: Duration(seconds: 2),
                   );
                   ScaffoldMessenger.of(context).showSnackBar(sb);
+                  _addNewUser(newUser);
                   Navigator.pushNamed(context, "/homePage");
                 }
               },
@@ -272,8 +298,9 @@ class RadioRow extends StatefulWidget {
   State<RadioRow> createState() => _RadioRowState();
 }
 
+dynamic grpValue = Gender.Male;
+
 class _RadioRowState extends State<RadioRow> {
-  dynamic grpValue = Gender.male;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -294,7 +321,7 @@ class _RadioRowState extends State<RadioRow> {
           children: [
             Radio(
               activeColor: Color(0xff187585),
-              value: Gender.male,
+              value: Gender.Male,
               groupValue: grpValue,
               onChanged: (newValue) {
                 setState(() {
@@ -311,7 +338,7 @@ class _RadioRowState extends State<RadioRow> {
             ),
             Radio(
               activeColor: Color(0xff187585),
-              value: Gender.female,
+              value: Gender.Female,
               groupValue: grpValue,
               onChanged: (newValue) {
                 setState(() {
@@ -332,5 +359,3 @@ class _RadioRowState extends State<RadioRow> {
     );
   }
 }
-
-enum Gender { male, female }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:to_do_list/data/data.dart';
 
 class DrawerWidget extends StatefulWidget {
   const DrawerWidget({super.key});
@@ -20,7 +21,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   child: Container(
                     padding: EdgeInsets.all(12),
                     child: Text(
-                      "M",
+                      registeredUsers[loggedInUserIndex].firstName[0],
                       style: TextStyle(
                         color: Colors.black,
                       ),
@@ -28,11 +29,11 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   ),
                 ),
                 title: Text(
-                  "Maamoun Hajtaher",
+                  "${registeredUsers[loggedInUserIndex].firstName} ${registeredUsers[loggedInUserIndex].lastName}",
                   style: TextStyle(fontSize: 20),
                 ),
                 subtitle: Text(
-                  "maamoun.ameenex@gmail.com",
+                  "${registeredUsers[loggedInUserIndex].email}",
                   style: TextStyle(fontSize: 12),
                 ),
               ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:to_do_list/data/data.dart';
 
 class ChangeEmail extends StatefulWidget {
   const ChangeEmail({super.key});
@@ -46,6 +47,9 @@ class _ChangeEmailState extends State<ChangeEmail> {
                       if (!(value.contains('@') && value.contains(".com"))) {
                         return "Invalid Email!";
                       }
+                      if (value == registeredUsers[loggedInUserIndex].email) {
+                        return "New Email must be different from the current one";
+                      }
                     },
                     decoration: InputDecoration(
                       //hintText: "Enter your name", // this goes away when writing
@@ -85,6 +89,9 @@ class _ChangeEmailState extends State<ChangeEmail> {
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'Required Field';
+                      }
+                      if (registeredUsers[loggedInUserIndex].pass != value) {
+                        return "Incorrect Password!";
                       }
                     },
                     keyboardType: TextInputType.visiblePassword,
@@ -133,6 +140,7 @@ class _ChangeEmailState extends State<ChangeEmail> {
                           EdgeInsets.symmetric(vertical: 16, horizontal: 16),
                     );
                     ScaffoldMessenger.of(context).showSnackBar(sb);
+                    registeredUsers[loggedInUserIndex].email = email;
                     Navigator.pushNamed(context, "/homePage");
                   }
                 },
