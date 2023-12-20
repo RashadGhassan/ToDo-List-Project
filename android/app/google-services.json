@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "355716240276",
+    "project_id": "todosync-r16m07",
+    "storage_bucket": "todosync-r16m07.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:355716240276:android:115bc7c57b382462c7f581",
+        "android_client_info": {
+          "package_name": "com.example.to_do_list"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDy0Eolj5Jb5xx7smPS_UB3EUZjyvVq5x4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

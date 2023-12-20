@@ -9,8 +9,11 @@ import 'package:to_do_list/screens/settings_screen.dart';
 import 'package:to_do_list/screens/home_screen.dart';
 import 'package:to_do_list/screens/change_email_screen.dart';
 import 'package:to_do_list/screens/change_pass_screen.dart';
+import 'package:to_do_list/firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+Future<void> main() async {
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
 

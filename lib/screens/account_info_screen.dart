@@ -232,7 +232,7 @@ class _AccountInfoFormState extends State<AccountInfoForm> {
                           ),
                           onPressed: _showDatePicker,
                         ),
-                        hintText: _dayTime,
+                        hintText: dob,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(50)),
                         ),
