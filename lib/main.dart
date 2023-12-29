@@ -11,8 +11,10 @@ import 'package:to_do_list/screens/change_email_screen.dart';
 import 'package:to_do_list/screens/change_pass_screen.dart';
 import 'package:to_do_list/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }

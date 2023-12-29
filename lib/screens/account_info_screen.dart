@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:to_do_list/data/data.dart';
+// import 'package:to_do_list/data/data.dart';
 
 class AccountInfo extends StatelessWidget {
   const AccountInfo({super.key});
@@ -35,7 +35,7 @@ class AccountInfoForm extends StatefulWidget {
 class _AccountInfoFormState extends State<AccountInfoForm> {
   var _formKey = GlobalKey<FormState>();
 
-  dynamic _dayTime = registeredUsers[loggedInUserIndex].dateOfBirth;
+  dynamic _dayTime = ""; //registeredUsers[loggedInUserIndex].dateOfBirth;
 
   //changed dateTime function
   void _showDatePicker() {
@@ -88,7 +88,8 @@ class _AccountInfoFormState extends State<AccountInfoForm> {
                       ),
                     ),
                     TextFormField(
-                      initialValue: registeredUsers[loggedInUserIndex].email,
+                      initialValue: //registeredUsers[loggedInUserIndex].email,
+                          "mamon@gmail.com",
                       decoration: InputDecoration(
                         enabled: false,
                         border: OutlineInputBorder(
@@ -122,7 +123,8 @@ class _AccountInfoFormState extends State<AccountInfoForm> {
                         }
                       },
                       initialValue:
-                          registeredUsers[loggedInUserIndex].firstName,
+                          // registeredUsers[loggedInUserIndex].firstName,
+                          "Mamon",
                       decoration: InputDecoration(
                         enabled: enable,
                         border: OutlineInputBorder(
@@ -155,7 +157,8 @@ class _AccountInfoFormState extends State<AccountInfoForm> {
                           lName = value;
                         }
                       },
-                      initialValue: registeredUsers[loggedInUserIndex].lastName,
+                      initialValue: //registeredUsers[loggedInUserIndex].lastName,
+                          "HajTaher",
                       decoration: InputDecoration(
                         enabled: enable,
                         border: OutlineInputBorder(
@@ -192,7 +195,8 @@ class _AccountInfoFormState extends State<AccountInfoForm> {
                           phoneNum = value;
                         }
                       },
-                      initialValue: registeredUsers[loggedInUserIndex].phone,
+                      initialValue: //registeredUsers[loggedInUserIndex].phone,
+                          "795705082",
                       decoration: InputDecoration(
                         prefixText: "+962",
                         enabled: enable,
@@ -232,7 +236,8 @@ class _AccountInfoFormState extends State<AccountInfoForm> {
                           ),
                           onPressed: _showDatePicker,
                         ),
-                        hintText: dob,
+                        hintText: //dob,
+                            "07/06/2003",
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(50)),
                         ),
@@ -275,11 +280,11 @@ class _AccountInfoFormState extends State<AccountInfoForm> {
                             EdgeInsets.symmetric(vertical: 16, horizontal: 16),
                       );
                       ScaffoldMessenger.of(context).showSnackBar(sb);
-                      registeredUsers[loggedInUserIndex].dateOfBirth = dob;
-                      registeredUsers[loggedInUserIndex].phone =
-                          "+962${phoneNum}";
-                      registeredUsers[loggedInUserIndex].firstName = fName;
-                      registeredUsers[loggedInUserIndex].lastName = lName;
+                      // registeredUsers[loggedInUserIndex].dateOfBirth = dob;
+                      // registeredUsers[loggedInUserIndex].phone =
+                      //     "+962${phoneNum}";
+                      // registeredUsers[loggedInUserIndex].firstName = fName;
+                      // registeredUsers[loggedInUserIndex].lastName = lName;
                     }
                   }
                 });

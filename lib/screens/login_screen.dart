@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:to_do_list/data/data.dart';
+// import 'package:to_do_list/data/data.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:to_do_list/models/user_auth.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -87,11 +89,9 @@ class FormLayout extends StatefulWidget {
   State<FormLayout> createState() => _FormLayoutState();
 }
 
-final List<TextEditingController> _todoController = [
-  TextEditingController(),
-  TextEditingController(),
-];
 bool _passwordVisible = false;
+final TextEditingController _controllerEmail = TextEditingController();
+final TextEditingController _controllerPassword = TextEditingController();
 
 class _FormLayoutState extends State<FormLayout> {
   @override
@@ -115,7 +115,7 @@ class _FormLayoutState extends State<FormLayout> {
                 ),
               ),
               TextFormField(
-                controller: _todoController[0],
+                controller: _controllerEmail,
                 validator: (value) {
                   if (value!.isEmpty) {
                     return "Field Required!";
@@ -123,19 +123,19 @@ class _FormLayoutState extends State<FormLayout> {
                   if (!(value.contains('@') && value.contains(".com"))) {
                     return "Invalid Email!";
                   }
-                  bool flag = true;
-                  for (int i = 0; i < registeredUsers.length; i++) {
-                    if (value != registeredUsers[i].email) {
-                      flag = true;
-                    } else {
-                      flag = false;
-                      index = i;
-                      break;
-                    }
-                  }
-                  if (flag) {
-                    return "User not registered!";
-                  }
+                  // bool flag = true;
+                  // for (int i = 0; i < registeredUsers.length; i++) {
+                  //   if (value != registeredUsers[i].email) {
+                  //     flag = true;
+                  //   } else {
+                  //     flag = false;
+                  //     index = i;
+                  //     break;
+                  //   }
+                  // }
+                  // if (flag) {
+                  //   return "User not registered!";
+                  // }
                 },
                 decoration: const InputDecoration(
                   //hintText: "Enter your name", // this goes away when writing
@@ -166,14 +166,14 @@ class _FormLayoutState extends State<FormLayout> {
                 ),
               ),
               TextFormField(
-                controller: _todoController[1],
+                controller: _controllerPassword,
                 validator: (value) {
                   if (value!.isEmpty) {
                     return "Field Required!";
                   }
-                  if (value != registeredUsers[index].pass) {
-                    return "Incorrrect Password!";
-                  }
+                  // if (value != registeredUsers[index].pass) {
+                  //   return "Incorrrect Password!";
+                  // }
                 },
                 keyboardType: TextInputType.visiblePassword,
                 obscureText: !_passwordVisible,
@@ -219,9 +219,14 @@ class _FormLayoutState extends State<FormLayout> {
   }
 }
 
-class LoginButton extends StatelessWidget {
+class LoginButton extends StatefulWidget {
   const LoginButton({super.key});
 
+  @override
+  State<LoginButton> createState() => _LoginButtonState();
+}
+
+class _LoginButtonState extends State<LoginButton> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -234,18 +239,7 @@ class LoginButton extends StatelessWidget {
         ),
         onPressed: () {
           if (_formKey.currentState!.validate()) {
-            var sb = const SnackBar(
-              content: Text("Login Successful!"),
-              backgroundColor: Colors.green,
-              duration: Duration(seconds: 2),
-              padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-            );
-            ScaffoldMessenger.of(context).showSnackBar(sb);
-            loggedInUserIndex = index;
-            _todoController[0].clear();
-            _todoController[1].clear();
-            _passwordVisible = false;
-            Navigator.pushNamed(context, "/homePage");
+            _handleSignin();
           }
         },
         child: const Padding(
@@ -261,5 +255,29 @@ class LoginButton extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _handleSignin() async {
+    try {
+      await Auth().signInWithEmailandPassword(
+        email: _controllerEmail.text,
+        password: _controllerPassword.text,
+      );
+      var sb = const SnackBar(
+        content: Text("Login Successful!"),
+        backgroundColor: Colors.green,
+        duration: Duration(seconds: 2),
+        padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(sb);
+      print("login successful");
+      // loggedInUserIndex = index;
+      _controllerEmail.clear();
+      _controllerPassword.clear();
+      _passwordVisible = false;
+      Navigator.pushNamed(context, "/homePage");
+    } on FirebaseAuthException catch (e) {
+      print(e.message);
+    }
   }
 }

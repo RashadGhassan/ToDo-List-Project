@@ -21,7 +21,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   child: Container(
                     padding: EdgeInsets.all(12),
                     child: Text(
-                      registeredUsers[loggedInUserIndex].firstName[0],
+                      // registeredUsers[loggedInUserIndex].firstName[0],
+                      "M",
                       style: TextStyle(
                         color: Colors.black,
                       ),
@@ -29,11 +30,13 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   ),
                 ),
                 title: Text(
-                  "${registeredUsers[loggedInUserIndex].firstName} ${registeredUsers[loggedInUserIndex].lastName}",
+                  // "${registeredUsers[loggedInUserIndex].firstName} ${registeredUsers[loggedInUserIndex].lastName}",
+                  "Mamon HajTaher",
                   style: TextStyle(fontSize: 20),
                 ),
                 subtitle: Text(
-                  "${registeredUsers[loggedInUserIndex].email}",
+                  // "${registeredUsers[loggedInUserIndex].email}",
+                  "mamon@gmail.com",
                   style: TextStyle(fontSize: 12),
                 ),
               ),
