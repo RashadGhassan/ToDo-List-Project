@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:to_do_list/data/data.dart';
+// import 'package:to_do_list/data/data.dart';
 import 'package:to_do_list/models/user.dart';
 import 'package:to_do_list/screens/register_screen.dart';
-import 'package:to_do_list/main.dart';
+// import 'package:to_do_list/main.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:to_do_list/models/user_auth.dart';
 
 class InfoRegistrationPage extends StatelessWidget {
   const InfoRegistrationPage({super.key});
@@ -11,9 +14,12 @@ class InfoRegistrationPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Fill Your Information"),
+        title: Text(
+          "Fill Your Information",
+          style: TextStyle(color: Colors.white),
+        ),
         elevation: 0,
-        backgroundColor: Color(0xff187585),
+        backgroundColor: const Color(0xff187585),
         leading: Padding(
           padding: const EdgeInsets.only(left: 12.0),
           child: ElevatedButton(
@@ -65,20 +71,24 @@ class _InfoRegistrationState extends State<InfoRegistration> {
     });
   }
 
-  void _addNewUser(user) {
-    registeredUsers.add(user);
-    loggedInUserIndex = registeredUsers.length - 1;
-  }
+  // void _addNewUser(user) {
+  //   registeredUsers.add(user);
+  //   loggedInUserIndex = registeredUsers.length - 1;
+  // }
 
-  User newUser = User(
-      id: registeredUsers.length + 1,
-      firstName: "",
-      lastName: "",
-      email: newUserEmail,
-      pass: newUserPass,
-      dateOfBirth: "",
-      phone: "",
-      gender: grpValue);
+  // User newUser = User(
+  //     id: registeredUsers.length + 1,
+  //     firstName: "",
+  //     lastName: "",
+  //     email: emailController.text,
+  //     pass: passwordController.text,
+  //     dateOfBirth: "",
+  //     phone: "",
+  //     gender: grpValue);
+
+  final TextEditingController firstNameController = TextEditingController();
+  final TextEditingController lastNameController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -105,11 +115,12 @@ class _InfoRegistrationState extends State<InfoRegistration> {
                       ),
                     ),
                     TextFormField(
+                      controller: firstNameController,
                       validator: (value) {
                         if (value!.isEmpty) {
                           return "Field Required!";
                         }
-                        newUser.firstName = value;
+                        // newUser.firstName = value;
                       },
                       decoration: InputDecoration(
                         //hintText: "Enter your name", // this goes away when writing
@@ -140,11 +151,12 @@ class _InfoRegistrationState extends State<InfoRegistration> {
                       ),
                     ),
                     TextFormField(
+                      controller: lastNameController,
                       validator: (value) {
                         if (value!.isEmpty) {
                           return "Field Required!";
                         }
-                        newUser.lastName = value;
+                        // newUser.lastName = value;
                       },
                       decoration: InputDecoration(
                         hintText: "Hajtaher",
@@ -171,6 +183,7 @@ class _InfoRegistrationState extends State<InfoRegistration> {
                       ),
                     ),
                     TextFormField(
+                      controller: phoneController,
                       validator: (value) {
                         if (value!.isEmpty) {
                           return "Field Required!";
@@ -179,7 +192,7 @@ class _InfoRegistrationState extends State<InfoRegistration> {
                         if (!regex.hasMatch(value) || value.length != 9) {
                           return 'Invalid Phone Number';
                         }
-                        newUser.phone = value;
+                        // newUser.phone = value;
                       },
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
@@ -208,9 +221,9 @@ class _InfoRegistrationState extends State<InfoRegistration> {
                       ),
                     ),
                     TextFormField(
-                      validator: (value) {
-                        newUser.dateOfBirth = value!;
-                      },
+                      // validator: (value) {
+                      //   newUser.dateOfBirth = value!;
+                      // },
                       readOnly: true,
                       decoration: InputDecoration(
                         suffixIcon: MaterialButton(
@@ -259,6 +272,7 @@ class _InfoRegistrationState extends State<InfoRegistration> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(50),
                 ),
+                backgroundColor: const Color(0xff187585),
               ),
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
@@ -268,8 +282,8 @@ class _InfoRegistrationState extends State<InfoRegistration> {
                     duration: Duration(seconds: 2),
                   );
                   ScaffoldMessenger.of(context).showSnackBar(sb);
-                  _addNewUser(newUser);
-                  Navigator.pushNamed(context, "/homePage");
+                  // _addNewUser(newUser);
+                  _handleSignUp();
                 }
               },
               child: Padding(
@@ -288,6 +302,34 @@ class _InfoRegistrationState extends State<InfoRegistration> {
         ],
       ),
     );
+  }
+
+  Future<void> _handleSignUp() async {
+    final DatabaseReference userRef = FirebaseDatabase.instance.ref();
+    try {
+      await Auth()
+          .signUpWithEmailandPassword(
+              email: emailController.text, password: passwordController.text)
+          .whenComplete(() {
+        Map<String, dynamic> user = {
+          "email": emailController.text,
+          "password": passwordController.text,
+          "firstName": firstNameController.text,
+          "lastName": lastNameController.text,
+          "phone": phoneController.text,
+          "dob": _dayTime,
+          "gender": grpValue,
+        };
+        print("registered successfully!");
+        var userID = Auth().auth.currentUser!.uid;
+        userRef.child("users").child(userID).set(user).whenComplete(() {
+          print("user added to database");
+          Navigator.pushNamed(context, "/homePage");
+        });
+      });
+    } on FirebaseAuthException catch (e) {
+      print(e.toString());
+    }
   }
 }
 

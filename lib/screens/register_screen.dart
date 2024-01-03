@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 class RegistrationPage extends StatelessWidget {
   const RegistrationPage({super.key});
@@ -34,10 +35,10 @@ class Registration extends StatefulWidget {
 
 var _formKey = GlobalKey<FormState>();
 bool _passwordVisible = false;
-dynamic pass = "";
+// dynamic pass = "";
 
-String newUserEmail = "";
-String newUserPass = "";
+// String newUserEmail = "";
+// String newUserPass = "";
 
 class _RegistrationState extends State<Registration> {
   @override
@@ -87,6 +88,10 @@ class RegistrationForm extends StatefulWidget {
   State<RegistrationForm> createState() => _RegistrationFormState();
 }
 
+final TextEditingController emailController = TextEditingController();
+final TextEditingController passwordController = TextEditingController();
+final TextEditingController confirmPasswordController = TextEditingController();
+
 class _RegistrationFormState extends State<RegistrationForm> {
   @override
   Widget build(BuildContext context) {
@@ -107,9 +112,10 @@ class _RegistrationFormState extends State<RegistrationForm> {
               ),
             ),
             TextFormField(
+              controller: emailController,
               validator: (value) {
-                newUserEmail = value!;
-                if (value.isEmpty) {
+                // newUserEmail = value!;
+                if (value!.isEmpty) {
                   return "Field Required!";
                 }
                 if (!(value.contains('@') && value.contains(".com"))) {
@@ -145,10 +151,11 @@ class _RegistrationFormState extends State<RegistrationForm> {
               ),
             ),
             TextFormField(
+              controller: passwordController,
               validator: (value) {
-                pass = value!;
-                newUserPass = pass;
-                if (value.isEmpty) {
+                // pass = value!;
+                // newUserPass = pass;
+                if (value!.isEmpty) {
                   return "Field Required!";
                 }
                 if (value.length < 8) {
@@ -198,11 +205,12 @@ class _RegistrationFormState extends State<RegistrationForm> {
               ),
             ),
             TextFormField(
+              controller: confirmPasswordController,
               validator: (value) {
                 if (value!.isEmpty) {
                   return "Field Required!";
                 }
-                if (value != pass) {
+                if (value != passwordController.text) {
                   return "Password not Matched";
                 }
               },

@@ -49,6 +49,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '355716240276',
     projectId: 'todosync-r16m07',
     authDomain: 'todosync-r16m07.firebaseapp.com',
+    databaseURL: 'https://todosync-r16m07-default-rtdb.firebaseio.com',
     storageBucket: 'todosync-r16m07.appspot.com',
     measurementId: 'G-6PX9RTTXD0',
   );
@@ -58,6 +59,7 @@ class DefaultFirebaseOptions {
     appId: '1:355716240276:android:115bc7c57b382462c7f581',
     messagingSenderId: '355716240276',
     projectId: 'todosync-r16m07',
+    databaseURL: 'https://todosync-r16m07-default-rtdb.firebaseio.com',
     storageBucket: 'todosync-r16m07.appspot.com',
   );
 
@@ -66,6 +68,7 @@ class DefaultFirebaseOptions {
     appId: '1:355716240276:ios:8364f49893036654c7f581',
     messagingSenderId: '355716240276',
     projectId: 'todosync-r16m07',
+    databaseURL: 'https://todosync-r16m07-default-rtdb.firebaseio.com',
     storageBucket: 'todosync-r16m07.appspot.com',
     iosBundleId: 'com.example.toDoList',
   );
@@ -75,6 +78,7 @@ class DefaultFirebaseOptions {
     appId: '1:355716240276:ios:8364f49893036654c7f581',
     messagingSenderId: '355716240276',
     projectId: 'todosync-r16m07',
+    databaseURL: 'https://todosync-r16m07-default-rtdb.firebaseio.com',
     storageBucket: 'todosync-r16m07.appspot.com',
     iosBundleId: 'com.example.toDoList',
   );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:to_do_list/data/data.dart';
+// import 'package:to_do_list/data/data.dart';
+import 'package:to_do_list/models/user_auth.dart';
 
 class DrawerWidget extends StatefulWidget {
   const DrawerWidget({super.key});
@@ -36,7 +37,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 ),
                 subtitle: Text(
                   // "${registeredUsers[loggedInUserIndex].email}",
-                  "mamon@gmail.com",
+                  // "mamon@gmail.com",
+                  "${Auth().auth.currentUser!.email}",
                   style: TextStyle(fontSize: 12),
                 ),
               ),
