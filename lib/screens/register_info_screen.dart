@@ -304,33 +304,68 @@ class _InfoRegistrationState extends State<InfoRegistration> {
     );
   }
 
+  // Future<void> _handleSignUp() async {
+  //   print(userRef.path);
+  //   try {
+  //     await Auth()
+  //         .signUpWithEmailandPassword(
+  //             email: emailController.text, password: passwordController.text)
+  //         .whenComplete(() {
+  //       Map<String, dynamic> user = {
+  //         "email": emailController.text,
+  //         "password": passwordController.text,
+  //         "firstName": firstNameController.text,
+  //         "lastName": lastNameController.text,
+  //         "phone": phoneController.text,
+  //         "dob": _dayTime,
+  //         "gender": grpValue,
+  //       };
+  //       print("registered successfully!");
+  //       var userID = Auth().auth.currentUser!.uid;
+  //       print(userID);
+  //       userRef.child(userID).set(user).whenComplete(() {
+  //         print("user added to database");
+  //         Navigator.pushNamed(context, "/homePage");
+  //       });
+  //     });
+  //   } on FirebaseAuthException catch (e) {
+  //     print(e.toString());
+  //   }
+  // }
+
+  // final DatabaseReference userRef = FirebaseDatabase.instance.ref("users");
   Future<void> _handleSignUp() async {
-    final DatabaseReference userRef = FirebaseDatabase.instance.ref();
     try {
       await Auth()
           .signUpWithEmailandPassword(
               email: emailController.text, password: passwordController.text)
           .whenComplete(() {
-        Map<String, dynamic> user = {
+        Map<dynamic, dynamic> user = {
           "email": emailController.text,
           "password": passwordController.text,
           "firstName": firstNameController.text,
           "lastName": lastNameController.text,
           "phone": phoneController.text,
           "dob": _dayTime,
-          "gender": grpValue,
+          "gender": grpValue.toString(),
         };
         print("registered successfully!");
         var userID = Auth().auth.currentUser!.uid;
-        userRef.child("users").child(userID).set(user).whenComplete(() {
+        Auth().auth.currentUser!.updateDisplayName(
+            "${firstNameController.text} ${lastNameController.text}");
+
+        userRef.child(userID).set(user).whenComplete(() {
           print("user added to database");
-          Navigator.pushNamed(context, "/homePage");
+          Navigator.pushNamed(context, '/homePage');
         });
       });
     } on FirebaseAuthException catch (e) {
       print(e.toString());
     }
   }
+
+  final DatabaseReference userRef =
+      FirebaseDatabase.instance.ref().child("users");
 }
 
 class RadioRow extends StatefulWidget {

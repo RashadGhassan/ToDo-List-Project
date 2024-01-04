@@ -32,7 +32,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 ),
                 title: Text(
                   // "${registeredUsers[loggedInUserIndex].firstName} ${registeredUsers[loggedInUserIndex].lastName}",
-                  "Mamon HajTaher",
+                  // "mamon@gmail.com",
+                  "${Auth().auth.currentUser!.displayName}",
                   style: TextStyle(fontSize: 20),
                 ),
                 subtitle: Text(
