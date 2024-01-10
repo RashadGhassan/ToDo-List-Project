@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously, avoid_print
+
 import 'package:flutter/material.dart';
 // import 'package:to_do_list/data/data.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -9,18 +11,18 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFD2D6D8),
+      backgroundColor: const Color(0xFFD2D6D8),
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
-        iconTheme: IconThemeData(
+        iconTheme: const IconThemeData(
           color: Color(0xff0b2e35),
         ),
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: Icon(Icons.arrow_back_ios),
+          icon: const Icon(Icons.arrow_back_ios),
         ),
       ),
       body: const LoginForm(),
@@ -48,9 +50,9 @@ class _LoginFormState extends State<LoginForm> {
             height: 12,
           ),
           //svg illus
-          Container(
-            child: Image.asset("assets/images/login.png"),
+          SizedBox(
             height: 180,
+            child: Image.asset("assets/images/login.png"),
           ),
           const SizedBox(
             height: 32,
@@ -69,11 +71,11 @@ class _LoginFormState extends State<LoginForm> {
           const SizedBox(
             height: 16,
           ),
-          FormLayout(),
+          const FormLayout(),
           const SizedBox(
             height: 16,
           ),
-          LoginButton(),
+          const LoginButton(),
         ],
       ),
     );
@@ -123,23 +125,9 @@ class _FormLayoutState extends State<FormLayout> {
                   if (!(value.contains('@') && value.contains(".com"))) {
                     return "Invalid Email!";
                   }
-                  // bool flag = true;
-                  // for (int i = 0; i < registeredUsers.length; i++) {
-                  //   if (value != registeredUsers[i].email) {
-                  //     flag = true;
-                  //   } else {
-                  //     flag = false;
-                  //     index = i;
-                  //     break;
-                  //   }
-                  // }
-                  // if (flag) {
-                  //   return "User not registered!";
-                  // }
+                  return null;
                 },
                 decoration: const InputDecoration(
-                  //hintText: "Enter your name", // this goes away when writing
-                  //labelText: "Enter your name", // this goes to the top
                   hintText: "name@example.com",
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(50)),
@@ -161,7 +149,6 @@ class _FormLayoutState extends State<FormLayout> {
                   style: TextStyle(
                     color: Color(0xff666666),
                     fontSize: 16,
-                    // fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
@@ -171,9 +158,7 @@ class _FormLayoutState extends State<FormLayout> {
                   if (value!.isEmpty) {
                     return "Field Required!";
                   }
-                  // if (value != registeredUsers[index].pass) {
-                  //   return "Incorrrect Password!";
-                  // }
+                  return null;
                 },
                 keyboardType: TextInputType.visiblePassword,
                 obscureText: !_passwordVisible,
@@ -190,8 +175,6 @@ class _FormLayoutState extends State<FormLayout> {
                       });
                     },
                   ),
-                  //hintText: "Enter your name", // this goes away when writing
-                  //labelText: "Enter your name", // this goes to the top
                   hintText: "Ah@k082",
                   border: const OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(50)),
@@ -200,10 +183,10 @@ class _FormLayoutState extends State<FormLayout> {
               ),
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 8, left: 12),
+          const Padding(
+            padding: EdgeInsets.only(top: 8, left: 12),
             child: Row(
-              children: const [
+              children: [
                 Text(
                   "Forgot your password?",
                   style: TextStyle(
@@ -233,13 +216,14 @@ class _LoginButtonState extends State<LoginButton> {
       padding: const EdgeInsets.all(24.0),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
+          backgroundColor: const Color(0xff187585),
           minimumSize: const Size.fromHeight(50),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
         ),
         onPressed: () {
           if (_formKey.currentState!.validate()) {
-            _handleSignin();
+            _handleSignIn();
           }
         },
         child: const Padding(
@@ -248,7 +232,7 @@ class _LoginButtonState extends State<LoginButton> {
             "Login",
             style: TextStyle(
               fontSize: 24,
-              color: Colors.white,
+              color: Color(0xFFD2D6D8),
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -257,7 +241,7 @@ class _LoginButtonState extends State<LoginButton> {
     );
   }
 
-  Future<void> _handleSignin() async {
+  Future<void> _handleSignIn() async {
     try {
       await Auth().signInWithEmailandPassword(
         email: _controllerEmail.text,
