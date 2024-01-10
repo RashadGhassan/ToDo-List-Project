@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_database/firebase_database.dart';
 
 class RegistrationPage extends StatelessWidget {
   const RegistrationPage({super.key});
@@ -7,21 +6,21 @@ class RegistrationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFD2D6D8),
+      backgroundColor: const Color(0xFFD2D6D8),
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
-        iconTheme: IconThemeData(
+        iconTheme: const IconThemeData(
           color: Color(0xff0b2e35),
         ),
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: Icon(Icons.arrow_back_ios),
+          icon: const Icon(Icons.arrow_back_ios),
         ),
       ),
-      body: Registration(),
+      body: const Registration(),
     );
   }
 }
@@ -47,18 +46,18 @@ class _RegistrationState extends State<Registration> {
       key: _formKey,
       child: ListView(
         children: [
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
-          Container(
-            child: Image.asset("assets/images/register.png"),
+          SizedBox(
             height: 150,
+            child: Image.asset("assets/images/register.png"),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 24.0),
+          const Padding(
+            padding: EdgeInsets.only(left: 24.0),
             child: Text(
               "Create your Account",
               style: TextStyle(
@@ -67,12 +66,12 @@ class _RegistrationState extends State<Registration> {
               ),
             ),
           ),
-          Padding(
+          const Padding(
             padding: EdgeInsets.all(24.0),
             child: RegistrationForm(),
           ),
-          Padding(
-            padding: const EdgeInsets.all(24.0),
+          const Padding(
+            padding: EdgeInsets.all(24.0),
             child: RegistrationButton(),
           ),
         ],
@@ -100,7 +99,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
+            const Padding(
               padding: EdgeInsets.only(bottom: 4.0, left: 12),
               child: Text(
                 "Email",
@@ -121,8 +120,9 @@ class _RegistrationFormState extends State<RegistrationForm> {
                 if (!(value.contains('@') && value.contains(".com"))) {
                   return "Invalid Email!";
                 }
+                return null;
               },
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 //hintText: "Enter your name", // this goes away when writing
                 //labelText: "Enter your name", // this goes to the top
                 hintText: "name@example.com",
@@ -133,13 +133,13 @@ class _RegistrationFormState extends State<RegistrationForm> {
             ),
           ],
         ),
-        SizedBox(
+        const SizedBox(
           height: 12,
         ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
+            const Padding(
               padding: EdgeInsets.only(bottom: 4.0, left: 12),
               child: Text(
                 "Password",
@@ -165,6 +165,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                 if (!regex.hasMatch(value)) {
                   return "Password must contain at least one special character, and atleast one number";
                 }
+                return null;
               },
               keyboardType: TextInputType.visiblePassword,
               obscureText: !_passwordVisible,
@@ -183,18 +184,18 @@ class _RegistrationFormState extends State<RegistrationForm> {
                 //hintText: "Enter your name", // this goes away when writing
                 //labelText: "Enter your name", // this goes to the top
                 hintText: "Ah@k082",
-                border: OutlineInputBorder(
+                border: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(50)),
                 ),
               ),
             ),
           ],
         ),
-        SizedBox(height: 12),
+        const SizedBox(height: 12),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
+            const Padding(
               padding: EdgeInsets.only(bottom: 4.0, left: 12),
               child: Text(
                 "Confirm Password",
@@ -213,10 +214,11 @@ class _RegistrationFormState extends State<RegistrationForm> {
                 if (value != passwordController.text) {
                   return "Password not Matched";
                 }
+                return null;
               },
               keyboardType: TextInputType.visiblePassword,
               obscureText: true,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: "Ah@k082",
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(50)),
@@ -237,6 +239,7 @@ class RegistrationButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
+        backgroundColor: const Color(0xff187585),
         minimumSize: const Size.fromHeight(50),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(50),
@@ -247,12 +250,13 @@ class RegistrationButton extends StatelessWidget {
           Navigator.pushNamed(context, "/infoRegistrationPage");
         }
       },
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
+      child: const Padding(
+        padding: EdgeInsets.all(16.0),
         child: Text(
           "Register",
           style: TextStyle(
             fontSize: 24,
+            color: Color(0xFFD2D6D8),
             fontWeight: FontWeight.w500,
           ),
         ),
