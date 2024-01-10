@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:to_do_list/data/data.dart';
 
 class ChangePass extends StatefulWidget {
   const ChangePass({super.key});
@@ -9,7 +8,7 @@ class ChangePass extends StatefulWidget {
 }
 
 class _ChangePassState extends State<ChangePass> {
-  var _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
   bool _passwordVisible = false;
   String confirmPass = "";
   String currentPass = "";
@@ -17,16 +16,16 @@ class _ChangePassState extends State<ChangePass> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFD2D6D8),
+      backgroundColor: const Color(0xFFD2D6D8),
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "Change Password",
           style: TextStyle(
             fontSize: 24,
           ),
         ),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios),
+          icon: const Icon(Icons.arrow_back_ios),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -39,7 +38,7 @@ class _ChangePassState extends State<ChangePass> {
           children: [
             Column(
               children: [
-                SizedBox(height: 24),
+                const SizedBox(height: 24),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: TextFormField(
@@ -48,12 +47,13 @@ class _ChangePassState extends State<ChangePass> {
                       if (value.isEmpty) {
                         return "Field Required!";
                       }
-                      if (registeredUsers[loggedInUserIndex].pass != value) {
-                        return "Incorrect Password!";
-                      }
+                      return null;
+                      // if (registeredUsers[loggedInUserIndex].pass != value) {
+                      //   return "Incorrect Password!";
+                      // }
                     },
                     obscureText: true,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       label: Text("Current Password"),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(50)),
@@ -61,7 +61,7 @@ class _ChangePassState extends State<ChangePass> {
                     ),
                   ),
                 ),
-                SizedBox(height: 24),
+                const SizedBox(height: 24),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: TextFormField(
@@ -81,6 +81,7 @@ class _ChangePassState extends State<ChangePass> {
                       if (value == currentPass) {
                         return "New Password must be different from the current one";
                       }
+                      return null;
                     },
                     keyboardType: TextInputType.visiblePassword,
                     obscureText: !_passwordVisible,
@@ -98,14 +99,14 @@ class _ChangePassState extends State<ChangePass> {
                           });
                         },
                       ),
-                      label: Text("New Password"),
-                      border: OutlineInputBorder(
+                      label: const Text("New Password"),
+                      border: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(50)),
                       ),
                     ),
                   ),
                 ),
-                SizedBox(height: 24),
+                const SizedBox(height: 24),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: TextFormField(
@@ -116,10 +117,11 @@ class _ChangePassState extends State<ChangePass> {
                       if (value != confirmPass) {
                         return "Password not Matched";
                       }
+                      return null;
                     },
                     keyboardType: TextInputType.visiblePassword,
                     obscureText: true,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       errorMaxLines: 4,
                       label: Text("Confirm New Password"),
                       border: OutlineInputBorder(
@@ -149,12 +151,12 @@ class _ChangePassState extends State<ChangePass> {
                           EdgeInsets.symmetric(vertical: 16, horizontal: 16),
                     );
                     ScaffoldMessenger.of(context).showSnackBar(sb);
-                    registeredUsers[loggedInUserIndex].pass = confirmPass;
+                    // registeredUsers[loggedInUserIndex].pass = confirmPass;
                     Navigator.pushNamed(context, "/homePage");
                   }
                 },
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
+                child: const Padding(
+                  padding: EdgeInsets.all(16.0),
                   child: Text(
                     "Submit",
                     style: TextStyle(

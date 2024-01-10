@@ -8,15 +8,17 @@ class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFD2D6D8),
+      backgroundColor: const Color(0xFFD2D6D8),
       appBar: AppBar(
-        title: Text(
+        backgroundColor: const Color(0xff187585),
+        title: const Text(
           'Settings',
           style: TextStyle(fontSize: 24),
         ),
+        foregroundColor: const Color(0xFFD2D6D8),
       ),
-      drawer: DrawerWidget(),
-      body: Column(
+      drawer: const DrawerWidget(),
+      body: const Column(
         children: [
           SizedBox(height: 8),
           ListTileSetting(

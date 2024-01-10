@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:to_do_list/models/to_do_item.dart';
 import 'package:to_do_list/widgets/drawer.dart';
 import 'package:to_do_list/widgets/todo_item.dart';
-import 'package:to_do_list/data/data.dart';
+import 'package:to_do_list/models/user_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -10,22 +11,22 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFD2D6D8),
+      backgroundColor: const Color(0xFFD2D6D8),
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
-        iconTheme: IconThemeData(
+        iconTheme: const IconThemeData(
           color: Color(0xff0b2e35),
         ),
       ),
-      drawer: DrawerWidget(),
-      body: HomePageBody(),
+      drawer: const DrawerWidget(),
+      body: const HomePageBody(),
     );
   }
 }
 
 class HomePageBody extends StatefulWidget {
-  HomePageBody({super.key});
+  const HomePageBody({super.key});
 
   @override
   State<HomePageBody> createState() => _HomePageBodyState();
@@ -36,12 +37,14 @@ class _HomePageBodyState extends State<HomePageBody> {
   List<ToDo> _foundToDo = [];
   final _todoController = TextEditingController();
 
+  //show created todos
   @override
   void initState() {
     _foundToDo = todoList;
     super.initState();
   }
 
+  //search for a specific todo in the list
   void _runFilter(String keyword) {
     List<ToDo> results = [];
     if (keyword.isEmpty) {
@@ -57,22 +60,26 @@ class _HomePageBodyState extends State<HomePageBody> {
     });
   }
 
-  void _handleToDoChange(ToDo todo) {
+  //hendle if todo is done
+  bool _handleToDoChange(ToDo todo) {
     setState(() {
       todo.isDone = !todo.isDone;
     });
+    return todo.isDone;
   }
 
+  //delete todo
   void _deleteToDoItem(String id) {
     setState(() {
-      todoList.removeWhere((item) => item.id == id);
+      // todoList.removeWhere((item) => item.id == id);
     });
   }
 
-  void _addToDoItem(String todo) {
+  //add todo
+  void _addToDoItem(String todo, var todoID) {
     setState(() {
       todoList.add(ToDo(
-        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        // id: todoID,
         todoText: todo,
       ));
     });
@@ -84,18 +91,18 @@ class _HomePageBodyState extends State<HomePageBody> {
     return Stack(
       children: [
         Container(
-          padding: EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
             children: [
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: TextField(
                   onChanged: (value) => _runFilter(value),
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     contentPadding: EdgeInsets.all(0),
                     prefixIcon: Icon(
                       Icons.search,
@@ -115,8 +122,8 @@ class _HomePageBodyState extends State<HomePageBody> {
                 child: ListView(
                   children: [
                     Container(
-                      margin: EdgeInsets.only(top: 50, bottom: 20),
-                      child: Text(
+                      margin: const EdgeInsets.only(top: 50, bottom: 20),
+                      child: const Text(
                         "To Do List",
                         style: TextStyle(
                           fontSize: 30,
@@ -142,18 +149,18 @@ class _HomePageBodyState extends State<HomePageBody> {
             children: [
               Expanded(
                 child: Container(
-                  margin: EdgeInsets.only(
+                  margin: const EdgeInsets.only(
                     bottom: 20,
                     left: 20,
                     right: 20,
                   ),
-                  padding: EdgeInsets.symmetric(
+                  padding: const EdgeInsets.symmetric(
                     horizontal: 20,
                     vertical: 5,
                   ),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    boxShadow: [
+                    boxShadow: const [
                       BoxShadow(
                         color: Colors.grey,
                         offset: Offset(0, 0),
@@ -165,7 +172,7 @@ class _HomePageBodyState extends State<HomePageBody> {
                   ),
                   child: TextField(
                     controller: _todoController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: "Add New ToDo",
                       border: InputBorder.none,
                     ),
@@ -173,21 +180,21 @@ class _HomePageBodyState extends State<HomePageBody> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(bottom: 20, right: 20),
+                margin: const EdgeInsets.only(bottom: 20, right: 20),
                 child: ElevatedButton(
                   onPressed: () {
-                    _addToDoItem(_todoController.text);
+                    _handleTodos();
                   },
-                  child: Icon(
-                    Icons.add,
-                    size: 32,
-                  ),
                   style: ElevatedButton.styleFrom(
-                      minimumSize: Size(60, 60),
+                      minimumSize: const Size(60, 60),
                       elevation: 10,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(50),
                       )),
+                  child: const Icon(
+                    Icons.add,
+                    size: 32,
+                  ),
                 ),
               ),
             ],
@@ -196,4 +203,30 @@ class _HomePageBodyState extends State<HomePageBody> {
       ],
     );
   }
+
+  Future<void> _handleTodos() async {
+    try {
+      final DatabaseReference userRef =
+          FirebaseDatabase.instance.ref().child("users");
+      var todoID = DateTime.now().millisecondsSinceEpoch.toString();
+      Map<dynamic, dynamic> task = {
+        'todoText': _todoController,
+        'done': false,
+      };
+      var userID = Auth().auth.currentUser!.uid;
+      // Auth().auth.currentUser!.updateDisplayName(
+      //     "${firstNameController.text} ${lastNameController.text}");
+
+      todoRef.push();
+      // .set(task).whenComplete(() {
+      //   print("todo added to database");
+      //   _addToDoItem(_todoController.text, todoID);
+      // });
+    } catch (e) {
+      print("---- ERROR ----");
+    }
+  }
+
+  final DatabaseReference todoRef =
+      FirebaseDatabase.instance.ref().child("task");
 }

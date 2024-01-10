@@ -6,18 +6,18 @@ class WelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFD2D6D8),
+      backgroundColor: const Color(0xFFD2D6D8),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            SizedBox(height: 80),
+            const SizedBox(height: 80),
             Column(
               // crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
@@ -25,7 +25,7 @@ class WelcomePage extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 56,
                         fontWeight: FontWeight.bold,
-                        color: const Color(0xff187585),
+                        color: Color(0xff187585),
                       ),
                     ),
                     Text(
@@ -38,22 +38,23 @@ class WelcomePage extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 40,
                 ),
-                Container(
-                  child: Image.asset("assets/images/welcome.png"),
+                SizedBox(
                   height: 150,
+                  child: Image.asset("assets/images/welcome.png"),
                 ),
               ],
             ),
             Container(
-              padding: EdgeInsets.only(bottom: 20),
+              padding: const EdgeInsets.only(bottom: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xff187585),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(50),
                       ),
@@ -70,9 +71,10 @@ class WelcomePage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xff187585),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(50),
                       ),
@@ -99,6 +101,7 @@ class WelcomePage extends StatelessWidget {
   }
 }
 
-TextStyle myStyle = TextStyle(
+TextStyle myStyle = const TextStyle(
   fontSize: 24,
+  color: Color(0xFFD2D6D8),
 );

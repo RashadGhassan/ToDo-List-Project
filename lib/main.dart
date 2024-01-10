@@ -10,9 +10,8 @@ import 'package:to_do_list/screens/home_screen.dart';
 import 'package:to_do_list/screens/change_email_screen.dart';
 import 'package:to_do_list/screens/change_pass_screen.dart';
 import 'package:to_do_list/firebase_options.dart';
+// ignore: depend_on_referenced_packages
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,9 +19,14 @@ Future<void> main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -38,16 +42,16 @@ class MyApp extends StatelessWidget {
       title: "To Do List Application",
       initialRoute: "/welcomePage",
       routes: {
-        "/welcomePage": (context) => WelcomePage(),
-        "/loginPage": (context) => LoginPage(),
-        "/registrationPage": (context) => RegistrationPage(),
-        "/infoRegistrationPage": (context) => InfoRegistrationPage(),
-        "/settingsPage": (context) => SettingsPage(),
-        "/homePage": (context) => HomePage(),
-        "/changeEmailPage": (context) => ChangeEmail(),
-        "/changePassPage": (context) => ChangePass(),
-        "/accountInfoPage": (context) => AccountInfo(),
-        "/aboutPage": (context) => AboutPage(),
+        "/welcomePage": (context) => const WelcomePage(),
+        "/loginPage": (context) => const LoginPage(),
+        "/registrationPage": (context) => const RegistrationPage(),
+        "/infoRegistrationPage": (context) => const InfoRegistrationPage(),
+        "/settingsPage": (context) => const SettingsPage(),
+        "/homePage": (context) => const HomePage(),
+        "/changeEmailPage": (context) => const ChangeEmail(),
+        "/changePassPage": (context) => const ChangePass(),
+        "/accountInfoPage": (context) => const AccountInfo(),
+        "/aboutPage": (context) => const AboutPage(),
       },
     );
   }
