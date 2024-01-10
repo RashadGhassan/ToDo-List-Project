@@ -1,5 +1,9 @@
+import 'dart:async';
+
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-// import 'package:to_do_list/data/data.dart';
+import 'package:to_do_list/models/user_auth.dart';
+import 'package:to_do_list/models/user_details.dart';
 
 class AccountInfo extends StatelessWidget {
   const AccountInfo({super.key});
@@ -7,20 +11,22 @@ class AccountInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFD2D6D8),
+      backgroundColor: const Color(0xFFD2D6D8),
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "Account Info",
           style: TextStyle(fontSize: 24),
         ),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios),
+          icon: const Icon(Icons.arrow_back_ios),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
+        backgroundColor: const Color(0xff187585),
+        foregroundColor: const Color(0xFFD2D6D8),
       ),
-      body: AccountInfoForm(),
+      body: const AccountInfoForm(),
     );
   }
 }
@@ -33,35 +39,35 @@ class AccountInfoForm extends StatefulWidget {
 }
 
 class _AccountInfoFormState extends State<AccountInfoForm> {
-  var _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
 
-  dynamic _dayTime = ""; //registeredUsers[loggedInUserIndex].dateOfBirth;
+  DatabaseReference dobRef = FirebaseDatabase.instance
+      .ref()
+      .child("users")
+      .child(Auth().auth.currentUser!.uid);
+  // DatabaseEvent dobEvent = dobRef.once() as DatabaseEvent;
+
+  dynamic _dayTime = "";
 
   //changed dateTime function
   void _showDatePicker() {
     showDatePicker(
       context: context,
-      initialDate: DateTime(2005),
       firstDate: DateTime(1923),
-      lastDate: DateTime.utc(2005, 12, 31),
+      lastDate: DateTime.now(),
       errorInvalidText: "Invalid Date",
     ).then((value) {
       setState(() {
         _dayTime =
-            "${value!.day.toString()}/${value.month.toString()}/${value.year.toString()}";
+            "${value!.day.toString()}-${value.month.toString()}-${value.year.toString()}";
       });
     });
   }
 
   bool enable = false;
   Color bgColor = Colors.white;
-  Color txtColor = Color(0xff187585);
+  Color txtColor = const Color(0xff187585);
   String txt = "Edit";
-
-  String fName = "";
-  String lName = "";
-  String phoneNum = "";
-  String dob = "";
 
   @override
   Widget build(BuildContext context) {
@@ -71,188 +77,203 @@ class _AccountInfoFormState extends State<AccountInfoForm> {
         padding: const EdgeInsets.all(16.0),
         child: ListView(
           children: [
-            Column(
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 4.0, left: 12),
-                      child: Text(
-                        "Email",
-                        style: TextStyle(
-                          color: Color(0xff666666),
-                          fontSize: 16,
-                          // fontWeight: FontWeight.w600,
+            FutureBuilder(
+              future: FirebaseService()
+                  .getUserDetails(Auth().auth.currentUser!.uid),
+              builder: (context, snapshot) {
+                dobRef.onValue.listen((event) {
+                  Map<dynamic, dynamic> snapdata =
+                      event.snapshot.value as dynamic;
+                  _dayTime = snapdata['dob'].toString();
+                });
+                if (snapshot.connectionState == ConnectionState.done) {
+                  UserDetails user = snapshot.data!;
+                  return Column(
+                    children: [
+                      ClipOval(
+                        child: SizedBox.fromSize(
+                          size: Size.fromRadius(50),
+                          child: Image.network(user.photoURL),
                         ),
                       ),
-                    ),
-                    TextFormField(
-                      initialValue: //registeredUsers[loggedInUserIndex].email,
-                          "mamon@gmail.com",
-                      decoration: InputDecoration(
-                        enabled: false,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(50)),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 16),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 4.0, left: 12),
-                      child: Text(
-                        "First Name",
-                        style: TextStyle(
-                          color: Color(0xff666666),
-                          fontSize: 16,
-                          // fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                    TextFormField(
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return "Field Required!";
-                        } else {
-                          fName = value;
-                        }
-                      },
-                      initialValue:
-                          // registeredUsers[loggedInUserIndex].firstName,
-                          "Mamon",
-                      decoration: InputDecoration(
-                        enabled: enable,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(50)),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 16),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 4.0, left: 12),
-                      child: Text(
-                        "Last Name",
-                        style: TextStyle(
-                          color: Color(0xff666666),
-                          fontSize: 16,
-                          // fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                    TextFormField(
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return "Field Required!";
-                        } else {
-                          lName = value;
-                        }
-                      },
-                      initialValue: //registeredUsers[loggedInUserIndex].lastName,
-                          "HajTaher",
-                      decoration: InputDecoration(
-                        enabled: enable,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(50)),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 16),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 4.0, left: 12),
-                      child: Text(
-                        "Phone",
-                        style: TextStyle(
-                          color: Color(0xff666666),
-                          fontSize: 16,
-                          // fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                    TextFormField(
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return "Field Required!";
-                        }
-                        RegExp regex = RegExp(r'^(?:[+0]9)?[0-9]{9}$');
-                        if (!regex.hasMatch(value) || value.length != 9) {
-                          return 'Invalid Phone Number';
-                        } else {
-                          phoneNum = value;
-                        }
-                      },
-                      initialValue: //registeredUsers[loggedInUserIndex].phone,
-                          "795705082",
-                      decoration: InputDecoration(
-                        prefixText: "+962",
-                        enabled: enable,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(50)),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 16),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 4.0, left: 12),
-                      child: Text(
-                        "Date of Birth",
-                        style: TextStyle(
-                          color: Color(0xff666666),
-                          fontSize: 16,
-                          // fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                    TextFormField(
-                      validator: (value) {
-                        dob = value!;
-                      },
-                      readOnly: true,
-                      decoration: InputDecoration(
-                        enabled: enable,
-                        suffixIcon: MaterialButton(
-                          child: Icon(
-                            Icons.calendar_month,
-                            color: Colors.grey[600],
+                      const SizedBox(height: 16),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.only(bottom: 4.0, left: 12),
+                            child: Text(
+                              "Email",
+                              style: TextStyle(
+                                color: Color(0xff666666),
+                                fontSize: 16,
+                                // fontWeight: FontWeight.w600,
+                              ),
+                            ),
                           ),
-                          onPressed: _showDatePicker,
-                        ),
-                        hintText: //dob,
-                            "07/06/2003",
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(50)),
-                        ),
+                          TextFormField(
+                            initialValue: user.email,
+                            decoration: const InputDecoration(
+                              enabled: false,
+                              border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(50)),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                      const SizedBox(height: 16),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.only(bottom: 4.0, left: 12),
+                            child: Text(
+                              "First Name",
+                              style: TextStyle(
+                                color: Color(0xff666666),
+                                fontSize: 16,
+                                // fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                          TextFormField(
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Field Required!";
+                              }
+                              return null;
+                            },
+                            initialValue: user.firstName,
+                            decoration: InputDecoration(
+                              enabled: enable,
+                              border: const OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(50)),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.only(bottom: 4.0, left: 12),
+                            child: Text(
+                              "Last Name",
+                              style: TextStyle(
+                                color: Color(0xff666666),
+                                fontSize: 16,
+                                // fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                          TextFormField(
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Field Required!";
+                              }
+                              return null;
+                            },
+                            initialValue: user.lastName,
+                            decoration: InputDecoration(
+                              enabled: enable,
+                              border: const OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(50)),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.only(bottom: 4.0, left: 12),
+                            child: Text(
+                              "Phone",
+                              style: TextStyle(
+                                color: Color(0xff666666),
+                                fontSize: 16,
+                                // fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                          TextFormField(
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Field Required!";
+                              }
+                              RegExp regex = RegExp(r'^(?:[+0]9)?[0-9]{9}$');
+                              if (!regex.hasMatch(value) || value.length != 9) {
+                                return 'Invalid Phone Number';
+                              }
+                              return null;
+                            },
+                            initialValue: user.phone,
+                            decoration: InputDecoration(
+                              prefixText: "+962",
+                              enabled: enable,
+                              border: const OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(50)),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.only(bottom: 4.0, left: 12),
+                            child: Text(
+                              "Date of Birth",
+                              style: TextStyle(
+                                color: Color(0xff666666),
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                          TextFormField(
+                            readOnly: true,
+                            decoration: InputDecoration(
+                              enabled: enable,
+                              suffixIcon: MaterialButton(
+                                onPressed: _showDatePicker,
+                                child: Icon(
+                                  Icons.calendar_month,
+                                  color: Colors.grey[600],
+                                ),
+                              ),
+                              hintText: _dayTime,
+                              border: const OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(50)),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  );
+                } else {
+                  return const Text("");
+                }
+              },
             ),
-            SizedBox(height: 40),
+            const SizedBox(height: 40),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size.fromHeight(50),
                 backgroundColor: bgColor,
-                side: BorderSide(
+                side: const BorderSide(
                   color: Color(0xff187585),
                   width: 2,
                 ),
@@ -264,12 +285,12 @@ class _AccountInfoFormState extends State<AccountInfoForm> {
                 setState(() {
                   enable = !enable;
                   if (enable) {
-                    bgColor = Color(0xff187585);
+                    bgColor = const Color(0xff187585);
                     txtColor = Colors.white;
                     txt = "Save";
                   } else {
                     bgColor = Colors.white;
-                    txtColor = Color(0xff187585);
+                    txtColor = const Color(0xff187585);
                     txt = "Edit";
                     if (_formKey.currentState!.validate()) {
                       var sb = const SnackBar(
@@ -280,11 +301,6 @@ class _AccountInfoFormState extends State<AccountInfoForm> {
                             EdgeInsets.symmetric(vertical: 16, horizontal: 16),
                       );
                       ScaffoldMessenger.of(context).showSnackBar(sb);
-                      // registeredUsers[loggedInUserIndex].dateOfBirth = dob;
-                      // registeredUsers[loggedInUserIndex].phone =
-                      //     "+962${phoneNum}";
-                      // registeredUsers[loggedInUserIndex].firstName = fName;
-                      // registeredUsers[loggedInUserIndex].lastName = lName;
                     }
                   }
                 });

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-// import 'package:to_do_list/data/data.dart';
+import 'package:to_do_list/models/user_details.dart';
 import 'package:to_do_list/models/user_auth.dart';
 
 class DrawerWidget extends StatefulWidget {
@@ -15,64 +15,63 @@ class _DrawerWidgetState extends State<DrawerWidget> {
     return Drawer(
       child: ListView(
         children: [
-          DrawerHeader(
-            child: Center(
-              child: ListTile(
-                leading: CircleAvatar(
-                  child: Container(
-                    padding: EdgeInsets.all(12),
-                    child: Text(
-                      // registeredUsers[loggedInUserIndex].firstName[0],
-                      "M",
-                      style: TextStyle(
-                        color: Colors.black,
+          FutureBuilder(
+              future: FirebaseService()
+                  .getUserDetails(Auth().auth.currentUser!.uid),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  UserDetails user = snapshot.data!;
+                  return DrawerHeader(
+                    child: Center(
+                      child: ListTile(
+                        leading: ClipOval(
+                          child: SizedBox.fromSize(
+                            size: Size.fromRadius(22),
+                            child: Image.network(user.photoURL),
+                          ),
+                        ),
+                        title: Text(
+                          "${user.firstName.toString()} ${user.lastName.toString()}",
+                          style: const TextStyle(fontSize: 20),
+                        ),
+                        subtitle: Text(
+                          user.email.toString(),
+                          style: const TextStyle(fontSize: 12),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                title: Text(
-                  // "${registeredUsers[loggedInUserIndex].firstName} ${registeredUsers[loggedInUserIndex].lastName}",
-                  // "mamon@gmail.com",
-                  "${Auth().auth.currentUser!.displayName}",
-                  style: TextStyle(fontSize: 20),
-                ),
-                subtitle: Text(
-                  // "${registeredUsers[loggedInUserIndex].email}",
-                  // "mamon@gmail.com",
-                  "${Auth().auth.currentUser!.email}",
-                  style: TextStyle(fontSize: 12),
-                ),
-              ),
-            ),
-          ),
+                  );
+                } else {
+                  return const Text("");
+                }
+              }),
           ListTile(
-            leading: Icon(Icons.home),
-            trailing: Icon(Icons.arrow_forward_ios, size: 16),
-            title: Text("Home"),
+            leading: const Icon(Icons.home),
+            trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+            title: const Text("Home"),
             onTap: () {
               Navigator.pushNamed(context, "/homePage");
             },
           ),
           ListTile(
-            leading: Icon(Icons.settings),
-            trailing: Icon(Icons.arrow_forward_ios, size: 16),
-            title: Text("Settings"),
+            leading: const Icon(Icons.settings),
+            trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+            title: const Text("Settings"),
             onTap: () {
               Navigator.pushNamed(context, "/settingsPage");
             },
           ),
           ListTile(
-            leading: Icon(Icons.info),
-            trailing: Icon(Icons.arrow_forward_ios, size: 16),
-            title: Text("About"),
+            leading: const Icon(Icons.info),
+            trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+            title: const Text("About"),
             onTap: () {
               Navigator.pushNamed(context, "/aboutPage");
             },
           ),
           ListTile(
-            leading: Icon(Icons.logout),
-            trailing: Icon(Icons.arrow_forward_ios, size: 16),
-            title: Text("Logout"),
+            leading: const Icon(Icons.logout),
+            title: const Text("Logout"),
             onTap: () {
               Navigator.pushNamed(context, "/welcomePage");
             },
