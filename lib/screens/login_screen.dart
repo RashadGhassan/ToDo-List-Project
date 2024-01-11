@@ -254,6 +254,7 @@ class _LoginButtonState extends State<LoginButton> {
         padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
       );
       ScaffoldMessenger.of(context).showSnackBar(sb);
+
       print("login successful");
       // loggedInUserIndex = index;
       _controllerEmail.clear();
@@ -261,6 +262,13 @@ class _LoginButtonState extends State<LoginButton> {
       _passwordVisible = false;
       Navigator.pushNamed(context, "/homePage");
     } on FirebaseAuthException catch (e) {
+      var sb = const SnackBar(
+        content: Text("User not Registered!"),
+        backgroundColor: Colors.red,
+        duration: Duration(seconds: 2),
+        padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(sb);
       print(e.message);
     }
   }

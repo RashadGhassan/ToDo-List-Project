@@ -1,4 +1,8 @@
+import 'dart:js_interop';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:to_do_list/models/user_auth.dart';
 
 class RegistrationPage extends StatelessWidget {
   const RegistrationPage({super.key});
@@ -232,9 +236,14 @@ class _RegistrationFormState extends State<RegistrationForm> {
   }
 }
 
-class RegistrationButton extends StatelessWidget {
+class RegistrationButton extends StatefulWidget {
   const RegistrationButton({super.key});
 
+  @override
+  State<RegistrationButton> createState() => _RegistrationButtonState();
+}
+
+class _RegistrationButtonState extends State<RegistrationButton> {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
@@ -247,7 +256,7 @@ class RegistrationButton extends StatelessWidget {
       ),
       onPressed: () {
         if (_formKey.currentState!.validate()) {
-          Navigator.pushNamed(context, "/infoRegistrationPage");
+          _handleSignUpFirst();
         }
       },
       child: const Padding(
@@ -262,5 +271,24 @@ class RegistrationButton extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _handleSignUpFirst() async {
+    try {
+      await Auth().signUpWithEmailandPassword(
+        email: emailController.text,
+        password: passwordController.text,
+      );
+      Navigator.pushNamed(context, "/infoRegistrationPage");
+    } on FirebaseAuthException catch (e) {
+      var sb = const SnackBar(
+        content: Text("User already Registered!"),
+        backgroundColor: Colors.red,
+        duration: Duration(seconds: 2),
+        padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(sb);
+      print(e.message);
+    }
   }
 }
