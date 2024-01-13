@@ -40,10 +40,12 @@ class _ToDoItemState extends State<ToDoItem> {
         contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
         leading: Checkbox(
           value: checkBoxVal,
-          side: BorderSide(color: Color(0xff187585)),
+          side: BorderSide(
+            color: Color(0xff187585),
+            width: 1.5,
+          ),
           onChanged: (newValue) {
             setState(() {
-              // print(widget.todo.isDone);
               checkBoxVal = newValue!;
             });
           },
