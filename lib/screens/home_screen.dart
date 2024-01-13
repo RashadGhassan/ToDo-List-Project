@@ -1,9 +1,12 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:to_do_list/models/to_do_item.dart';
 import 'package:to_do_list/widgets/drawer.dart';
 import 'package:to_do_list/widgets/todo_item.dart';
 import 'package:to_do_list/models/user_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:to_do_list/models/firebase_service.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -34,23 +37,24 @@ class HomePageBody extends StatefulWidget {
 
 class _HomePageBodyState extends State<HomePageBody> {
   final todoList = ToDo.todoList();
-  List<ToDo> _foundToDo = [];
+  List? tempTodos = [];
+  List<dynamic> _foundToDo = [];
   final _todoController = TextEditingController();
 
   //show created todos
   @override
   void initState() {
-    _foundToDo = todoList;
+    _foundToDo = tempTodos!;
     super.initState();
   }
 
   //search for a specific todo in the list
   void _runFilter(String keyword) {
-    List<ToDo> results = [];
+    List<dynamic> results = [];
     if (keyword.isEmpty) {
-      results = todoList;
+      results = tempTodos!;
     } else {
-      results = todoList
+      results = tempTodos!
           .where((item) =>
               item.todoText!.toLowerCase().contains(keyword.toLowerCase()))
           .toList();
@@ -76,18 +80,31 @@ class _HomePageBodyState extends State<HomePageBody> {
   }
 
   //add todo
-  void _addToDoItem(String todo, var todoID) {
+  void _addToDoItem(String todo) {
     setState(() {
       todoList.add(ToDo(
-        // id: todoID,
         todoText: todo,
       ));
     });
     _todoController.clear();
   }
 
+  // Future<void> fetchTodos() async {
+  //   String userUID = Auth().auth.currentUser!.uid;
+  //   List? todos = await FirebaseService().getTodos(userUID);
+  //   // print(todos);
+  //   if (todos != null) {
+  //     setState(() {
+  //       tempTodos = todos;
+  //     });
+  //   } else {
+  //     print("Todos not Available!");
+  //   }
+  // }
+
   @override
   Widget build(BuildContext context) {
+    // fetchTodos();
     return Stack(
       children: [
         Container(
@@ -119,25 +136,33 @@ class _HomePageBodyState extends State<HomePageBody> {
                 ),
               ),
               Expanded(
-                child: ListView(
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.only(top: 50, bottom: 20),
-                      child: const Text(
-                        "To Do List",
-                        style: TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.w500,
+                child: FutureBuilder(
+                  future:
+                      FirebaseService().getTodos(Auth().auth.currentUser!.uid),
+                  builder: (context, snapshot) {
+                    List tempTodos = snapshot.data!;
+                    _foundToDo = tempTodos;
+                    return ListView(
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(top: 50, bottom: 20),
+                          child: const Text(
+                            "To Do List",
+                            style: TextStyle(
+                              fontSize: 30,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    for (ToDo item in _foundToDo.reversed)
-                      ToDoItem(
-                        todo: item,
-                        onToDoChanged: _handleToDoChange,
-                        onDeleteItem: _deleteToDoItem,
-                      ),
-                  ],
+                        for (ToDo item in tempTodos.reversed)
+                          ToDoItem(
+                            todo: item,
+                            onToDoChanged: _handleToDoChange,
+                            onDeleteItem: _deleteToDoItem,
+                          ),
+                      ],
+                    );
+                  },
                 ),
               ),
             ],
@@ -205,28 +230,25 @@ class _HomePageBodyState extends State<HomePageBody> {
   }
 
   Future<void> _handleTodos() async {
+    DatabaseReference todoRef = FirebaseDatabase.instance.ref().child("task");
     try {
-      final DatabaseReference userRef =
-          FirebaseDatabase.instance.ref().child("users");
-      var todoID = DateTime.now().millisecondsSinceEpoch.toString();
+      //bool av = _handleToDoChange();
       Map<dynamic, dynamic> task = {
-        'todoText': _todoController,
-        'done': false,
+        'todoText': _todoController.text,
+        'done': "false",
       };
       var userID = Auth().auth.currentUser!.uid;
+      var todoID = DateTime.now().millisecondsSinceEpoch.toString();
+      print("this is todiID = ${todoID}");
       // Auth().auth.currentUser!.updateDisplayName(
       //     "${firstNameController.text} ${lastNameController.text}");
 
-      todoRef.push();
-      // .set(task).whenComplete(() {
-      //   print("todo added to database");
-      //   _addToDoItem(_todoController.text, todoID);
-      // });
+      todoRef.child(userID).push().set(task).whenComplete(() {
+        print("todo added to database");
+        _addToDoItem(_todoController.text);
+      });
     } catch (e) {
       print("---- ERROR ----");
     }
   }
-
-  final DatabaseReference todoRef =
-      FirebaseDatabase.instance.ref().child("task");
 }

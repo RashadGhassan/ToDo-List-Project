@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:to_do_list/models/user_details.dart';
 import 'package:to_do_list/models/user_auth.dart';
+import 'package:to_do_list/models/firebase_service.dart';
 
 class DrawerWidget extends StatefulWidget {
   const DrawerWidget({super.key});

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:to_do_list/models/to_do_item.dart';
 
-class ToDoItem extends StatelessWidget {
+class ToDoItem extends StatefulWidget {
   const ToDoItem({
     super.key,
     required this.todo,
@@ -13,28 +13,52 @@ class ToDoItem extends StatelessWidget {
   final onDeleteItem;
 
   @override
+  State<ToDoItem> createState() => _ToDoItemState();
+}
+
+class _ToDoItemState extends State<ToDoItem> {
+  bool checkBoxVal = false;
+
+  @override
+  void initState() {
+    checkBoxVal = widget.todo.isDone;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(bottom: 20),
       child: ListTile(
-        onTap: () {
-          onToDoChanged(todo);
-        },
+        // onTap: () {
+        //   widget.onToDoChanged(widget.todo);
+        // },
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),
         tileColor: Colors.white,
         contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-        leading: Icon(
-          todo.isDone ? Icons.check_box : Icons.check_box_outline_blank,
-          color: Color(0xff187585),
+        leading: Checkbox(
+          value: checkBoxVal,
+          side: BorderSide(color: Color(0xff187585)),
+          onChanged: (newValue) {
+            setState(() {
+              // print(widget.todo.isDone);
+              checkBoxVal = newValue!;
+            });
+          },
         ),
+        // leading: Icon(
+        //   todo.isDone ? Icons.check_box : Icons.check_box_outline_blank,
+        //   color: Color(0xff187585),
+        // ),
         title: Text(
-          todo.todoText!,
+          widget.todo.todoText!,
           style: TextStyle(
             fontSize: 16,
             color: Color(0xff0b2e35),
-            decoration: todo.isDone ? TextDecoration.lineThrough : null,
+            decoration: checkBoxVal ? TextDecoration.lineThrough : null,
+            // decoration: widget.todo.isDone ? TextDecoration.lineThrough : null,
           ),
         ),
         trailing: Container(

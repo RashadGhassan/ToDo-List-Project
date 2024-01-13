@@ -4,6 +4,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:to_do_list/models/user_auth.dart';
 import 'package:to_do_list/models/user_details.dart';
+import 'package:to_do_list/models/firebase_service.dart';
 
 class AccountInfo extends StatelessWidget {
   const AccountInfo({super.key});

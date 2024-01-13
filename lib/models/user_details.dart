@@ -1,7 +1,5 @@
 // ignore_for_file: constant_identifier_names
 
-import 'package:firebase_database/firebase_database.dart';
-
 class UserDetails {
   String firstName;
   String lastName;
@@ -53,23 +51,4 @@ class UserDetails {
 enum Gender {
   Male,
   Female,
-}
-
-class FirebaseService {
-  Future<UserDetails?> getUserDetails(String useruid) async {
-    try {
-      DatabaseReference refh = FirebaseDatabase.instance.ref().child("users");
-      DatabaseEvent event = await refh.child(useruid).once();
-      if (event.snapshot.value != null) {
-        Map<dynamic, dynamic> snapdata = event.snapshot.value as dynamic;
-        return UserDetails.fromMap(snapdata);
-      } else {
-        return null;
-      }
-    } catch (e) {
-      // ignore: avoid_print
-      print("here ---> ${e.toString()}");
-    }
-    return null;
-  }
 }
