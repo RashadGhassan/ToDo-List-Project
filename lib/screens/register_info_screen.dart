@@ -347,10 +347,10 @@ class _InfoRegistrationState extends State<InfoRegistration> {
           "gender": grpValue.toString().split('.').last,
           "photoURL": imgURL,
         };
-        print("registered successfully!");
+        // print("registered successfully!");
         var userID = Auth().auth.currentUser!.uid;
-        Auth().auth.currentUser!.updateDisplayName(
-            "${firstNameController.text} ${lastNameController.text}");
+        // Auth().auth.currentUser!.updateDisplayName(
+        //     "${firstNameController.text} ${lastNameController.text}");
 
         userRef.child(userID).set(user).whenComplete(() {
           print("user added to database");
