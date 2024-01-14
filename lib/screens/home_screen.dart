@@ -238,8 +238,8 @@ class _HomePageBodyState extends State<HomePageBody> {
         'done': "false",
       };
       var userID = Auth().auth.currentUser!.uid;
-      var todoID = DateTime.now().millisecondsSinceEpoch.toString();
-      print("this is todiID = ${todoID}");
+      // var todoID = DateTime.now().millisecondsSinceEpoch.toString();
+      // print("this is todiID = ${todoID}");
       // Auth().auth.currentUser!.updateDisplayName(
       //     "${firstNameController.text} ${lastNameController.text}");
 
