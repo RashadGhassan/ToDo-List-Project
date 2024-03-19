@@ -326,6 +326,9 @@ class _InfoRegistrationState extends State<InfoRegistration> {
   }
 
   Future<void> _handleSignUp() async {
+    if (_img == null) {
+      picImage();
+    }
     final Reference userpicref = FirebaseStorage.instance
         .ref()
         .child("userImage")
@@ -352,7 +355,7 @@ class _InfoRegistrationState extends State<InfoRegistration> {
         // Auth().auth.currentUser!.updateDisplayName(
         //     "${firstNameController.text} ${lastNameController.text}");
 
-        userRef.child(userID).set(user).whenComplete(() {
+        userRef.child(firstNameController.text).set(user).whenComplete(() {
           print("user added to database");
           Navigator.pushNamed(context, '/homePage');
         });
